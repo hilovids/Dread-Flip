@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function startTimer() {
         clearInterval(timer);
-        timeLeft = 30;
+        timeLeft = 60;
         timerDisplay.textContent = timeLeft;
         startTimerButton.disabled = true;
         showSums();
