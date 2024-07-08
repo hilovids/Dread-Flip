@@ -1,0 +1,273 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 60px);
+    grid-gap: 10px;
+}
+
+.grid-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    background-color: #4caf50;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 24px;
+    color: rgb(200, 248, 169);
+}
+
+.cell.flipped {
+    background-color: #fff;
+    color: #000;
+    cursor: default;
+}
+
+.sums {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sums .sum {
+    width: 60px;
+    height: 60px;
+    background-color: #2196f3;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+    margin-left: 10px;
+    overflow: hidden;
+    transition: color 0.3s ease; /* Smooth transition for opacity */
+}
+
+.hide {
+    color: #2196f3 !important;
+}
+
+#column-sums {
+    display: flex;
+    justify-content: end;
+    margin-top: 10px;
+    margin-left: 0px;
+    flex-direction: row;
+}
+
+#row-sums {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    justify-content: space-between;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #a0a0a0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #585858;
+}
+
+button:disabled {
+    background-color: #222222;
+    cursor: not-allowed;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #585858;
+    width: 80%;
+    text-align: center;
+    font-size: 24px;
+    color: black;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.timer-container {
+    display: inline-block; /* Ensures it behaves like a block but respects other inline elements */
+    padding: 10px; /* Adjust padding for spacing */
+    background-color: #dfbc72; /* Match background color to button */
+    border-radius: 5px; /* Match border radius to button */
+    font-size: 16px;
+}
+
+.timer-container .timer-icon {
+    margin-right: 5px; /* Add margin between icon and text */
+    vertical-align: middle; /* Align icon vertically with text */
+    line-height: 1; /* Ensure proper line height */
+}
+
+#timer-display {
+    vertical-align: middle; /* Align text vertically with icon */
+    line-height: 1; /* Ensure proper line height */
+    color: rgb(112, 84, 61); /* Match text color to button */
+}
+
+button#reset-button{
+ background-color: rgb(126, 22, 22);
+}
+
+button#reset-button:hover{
+    background-color: rgb(70, 10, 10);
+}
+
+body.dark-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    margin-right: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ffc163;
+    transition: .4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 4px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #352c12;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.theme-toggle {
+    display: inline-block;
+    padding: 10px 5px;
+    background-color: #ffe49c;
+    border-radius: 5px;
+}
+
+body.dark-mode .theme-toggle{
+    background-color: #887339;
+}
+
+/* Text label for the theme toggle */
+#theme-label {
+    font-size: 16px;
+    vertical-align: middle;
+    line-height: 1;
+    color: white;
+}
+
+.main-content {
+    display: flex;
+    gap: 20px;
+}
+
+.info-panel {
+    background-color: #63c466;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 250px;
+    font-size: 14px;
+    text-align: left; /* Align text to the left */
+}
+
+body.dark-mode .info-panel {
+    background-color: rgb(28, 97, 30);
+    color: white;
+}
+
+.info-panel h2 {
+    margin-top: 0;
+    text-align: center; /* Ensure the heading is also aligned to the left */
+}
