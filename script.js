@@ -324,12 +324,10 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.onclick = function(event) {
-        if (event.target == deathModal) {
+        if (event.target == deathModal || event.target == settingsModal) {
             deathModal.style.display = "none";
-            stopTimer();
-        }
-        if (event.target == settingsModal) {
             settingsModal.style.display = "none";
+            stopTimer();
         }
     };
 
@@ -345,13 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeSettingsModal.onclick = function() {
         settingsModal.style.display = "none";
     };
-
-    window.onclick = function(event) {
-        if (event.target == settingsModal) {
-            settingsModal.style.display = "none";
-        }
-    };
-
+    
     saveSettingsButton.addEventListener("click", () => {
         const timerLength = parseInt(timerLengthInput.value);
         const boardSize = parseInt(boardSizeInput.value);

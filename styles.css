@@ -113,6 +113,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
+/* Modal background */
 .modal {
     display: none;
     position: fixed;
@@ -121,19 +122,25 @@ button:disabled {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden; /* Prevent scrolling */
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* Modal content */
 .modal-content {
     background-color: white;
-    margin: 15% auto;
+    margin: auto;
     padding: 20px;
     border: 1px solid #585858;
-    width: 80%;
+    width: 80%; /* Adjust as needed */
+    max-width: 500px; /* Optional, to limit the width */
     text-align: center;
     font-size: 24px;
     color: black;
+    box-sizing: border-box; /* Include padding in width calculation */
+    position: relative; /* Center vertically */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center vertically */
 }
 
 .close {
