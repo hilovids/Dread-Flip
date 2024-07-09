@@ -25,6 +25,7 @@
                     <span class="slider round"></span>
                 </label>
             </div>
+            <button id="settings-button"><span class="gear-icon">⚙️</span> Settings</button>
         </div>
         <div class="main-content">
             <div id="grid-wrapper">
@@ -47,7 +48,36 @@
             </div>
         </div>
     </div>
-    <div id="modal" class="modal">
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <span id="close-settings-modal" class="close">&times;</span>
+            <h2>⚙️ Settings ⚙️</h2>
+            <form id="settings-form">
+                <div class="form-group">
+                    <label for="timer-length">Timer Length (seconds):</label>
+                    <input type="number" id="timer-length" name="timer-length" value="60" min="10" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+                <div class="form-group">
+                    <label for="board-size">Board Size:</label>
+                    <input type="number" id="board-size" name="board-size" value="7" max="10" min="5" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+                <div class="form-group">
+                    <label for="skull-rate">Skull Spawn Rate (%):</label>
+                    <input type="number" id="skull-rate" name="skull-rate" value="30" min="1" max="100" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+                <div class="form-group">
+                    <label for="seed">Current Game Seed:</label>
+                    <input type="number" id="seed" name="seed" placeholder="Enter a game seed" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                </div>
+                <div class="form-group">
+                    <p class="disclaimer-text">Disclaimer: Dread Flip uses simple cookies and the browser to store your preferred settings and game state across visits. These settings can be cleared below.</p>
+                </div>
+                <button type="button" id="save-settings-button">💾 Save</button>
+                <button type="button" id="delete-cookies-button">🍪 Delete Cookies</button>
+            </form>
+        </div>
+    </div>
+    <div id="death-modal" class="modal">
         <div class="modal-content">
             <span id="close-modal" class="close">&times;</span>
             <p>You have died 💀</p>

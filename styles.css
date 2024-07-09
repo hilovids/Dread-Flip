@@ -109,7 +109,7 @@ button:hover {
 }
 
 button:disabled {
-    background-color: #222222;
+    background-color: #464646;
     cursor: not-allowed;
 }
 
@@ -230,7 +230,7 @@ input:checked + .slider:before {
 
 .theme-toggle {
     display: inline-block;
-    padding: 10px 5px;
+    padding: 10px 8px;
     background-color: #ffe49c;
     border-radius: 5px;
 }
@@ -270,4 +270,68 @@ body.dark-mode .info-panel {
 .info-panel h2 {
     margin-top: 0;
     text-align: center; /* Ensure the heading is also aligned to the left */
+}
+
+#settings-form label {
+    display: block;
+    margin-top: 10px;
+}
+
+.form-group {
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+/* Style for the labels */
+.form-group label {
+    width: 200px; /* Adjust as needed */
+    margin-right: 10px;
+    font-size: 16px;
+    text-align: right;
+}
+
+/* Style for the input boxes in the settings modal */
+#settings-form input {
+    width: 100px;
+    padding: 10px; /* Add padding for better appearance */
+    font-size: 16px; /* Consistent font size */
+    border: 1px solid #ccc; /* Border for input boxes */
+    border-radius: 5px; /* Rounded corners */
+}
+
+#save-settings-button {
+    background-color: #75baf1;
+    line-height: 1;
+}
+
+#save-settings-button:hover {
+    background-color: #3a74a3;
+}
+
+.gear-icon {
+    line-height: 1;
+}
+
+#settings-button {
+    background-color: #75baf1;
+}
+
+#settings-button:hover {
+    background-color: #3a74a3;
+}
+
+.disclaimer-text {
+    font-weight: bold;
+    width: 500px;
+    font-size: 16px;
+}
+
+#delete-cookies-button {
+    background-color: #c49252;
+    line-height: 1;
+}
+
+#delete-cookies-button:hover {
+    background-color: #8a6535;
 }
