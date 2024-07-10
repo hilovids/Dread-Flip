@@ -176,10 +176,22 @@ document.addEventListener("DOMContentLoaded", () => {
         return Math.floor(Math.random() * 1000000);
     }
 
+    function LCG(seed) {
+        const a = 1664525;
+        const c = 1013904223;
+        const m = Math.pow(2, 32);
+        let state = seed;
+        return function() {
+            state = (a * state + c) % m;
+            return state / m;
+        };
+    }
+
     function seededRandom(seed) {
         var x = Math.sin(seed++) * 10000;
         return x - Math.floor(x);
     }
+
 
     function setInitialTheme() {
         if (themeToggleCheckbox.checked) {
@@ -215,7 +227,6 @@ document.addEventListener("DOMContentLoaded", () => {
         startTimerButton.disabled = true;
         showSums();
         timer = setInterval(() => {
-            console.log(timeRemaining)
             timeRemaining--;
             timerDisplay.textContent = timeRemaining;
             if (timeRemaining <= 0) {
@@ -263,10 +274,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const cellValues = [];
 
         let seedValue = parseInt(seed);
-        let randomFunction = (tempSeed) => seededRandom(tempSeed);
+        let randomFunction = LCG(seedValue);
 
         for (let i = 0; i < gridSize * gridSize; i++) {
-            cellValues.push(randomFunction(seedValue + i) < skullSpawnRate ? skullEmoji : appleEmoji);
+            let random = randomFunction();
+            cellValues.push(random < skullSpawnRate ? skullEmoji : appleEmoji);
         }
 
         let rowSums = new Array(gridSize).fill(0);
