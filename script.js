@@ -18,19 +18,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveSettingsButton = document.getElementById("save-settings-button");
     const timerLengthInput = document.getElementById("timer-length");
     const boardSizeInput = document.getElementById("board-size");
-    const skullRateInput = document.getElementById("skull-rate");
+    const numSkullsInput = document.getElementById("num-skulls");
     const seedInput = document.getElementById("seed");
     const kofiButton = document.getElementById("kofi-button");
     const resetModal = document.getElementById("reset-modal");
     const confirmResetButton = document.getElementById("confirm-reset-button");
     const cancelResetButton = document.getElementById("cancel-reset-button");
+    const flipSkullButton = document.getElementById("flip-skull-button");
 
     const appleEmoji = "🍎";
     const skullEmoji = "💀";
 
     let seed = null;
-    let gridSize = 7;
-    let skullSpawnRate = 0.3;
+    let gridSize = 8;
+    let numSkulls = 22;
     let timeRemaining = 60;
     let timer;
     let timeLeft = 60;
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function saveSettingsToCookies() {
         setCookie("timerLength", timeLeft, 365);
         setCookie("gridSize", gridSize, 365);
-        setCookie("skullSpawnRate", skullSpawnRate, 365);
+        setCookie("numSkulls", numSkulls, 365);
         setCookie("seed", seed, 365);
         setCookie("darkMode", darkMode, 365);
     }
@@ -84,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadSettingsFromCookies() {
         const timerLengthCookie = getCookie("timerLength");
         const gridSizeCookie = getCookie("gridSize");
-        const skullSpawnRateCookie = getCookie("skullSpawnRate");
+        const numSkullsCookie = getCookie("numSkulls");
         const seedCookie = getCookie("seed");
         const darkModeCookie = getCookie("darkMode");
     
@@ -94,8 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (gridSizeCookie) {
             gridSize = parseInt(gridSizeCookie);
         }
-        if (skullSpawnRateCookie) {
-            skullSpawnRate = parseFloat(skullSpawnRateCookie);
+        if (numSkullsCookie) {
+            numSkulls = parseInt(numSkullsCookie);
         }
         if (seedCookie) {
             seed = seedCookie !== "null" ? seedCookie : null;
@@ -172,6 +173,19 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
+    function flipRandomSkull() {
+        const cells = Array.from(document.querySelectorAll(".cell"));
+        const skullCells = cells.filter(cell => cell.dataset.value === "💀" && !cell.classList.contains("flipped"));
+
+        if (skullCells.length > 0) {
+            const randomIndex = Math.floor(Math.random() * skullCells.length);
+            flipCell(skullCells[randomIndex]);
+        } 
+        else {
+            alert("No unflipped skulls available!");
+        }
+    }
+
     function generateRandomSeed() {
         return Math.floor(Math.random() * 1000000);
     }
@@ -186,12 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return state / m;
         };
     }
-
-    function seededRandom(seed) {
-        var x = Math.sin(seed++) * 10000;
-        return x - Math.floor(x);
-    }
-
 
     function setInitialTheme() {
         if (themeToggleCheckbox.checked) {
@@ -231,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
             timerDisplay.textContent = timeRemaining;
             if (timeRemaining <= 0) {
                 clearInterval(timer);
-                showModal();
+                alert("Time is up!");
                 timeRemaining = timeLeft;
                 stopTimerButton.disabled = true;
                 startTimerButton.disabled = false;
@@ -263,6 +271,37 @@ document.addEventListener("DOMContentLoaded", () => {
         sums.forEach(sum => sum.classList.remove('hide'));
     }
 
+    function updateSums(gridSize, cellValues, rowSumsContainer, columnSumsContainer) {
+        let rowSums = new Array(gridSize).fill(0);
+        let columnSums = new Array(gridSize).fill(0);
+    
+        for (let i = 0; i < cellValues.length; i++) {
+            const row = Math.floor(i / gridSize);
+            const col = i % gridSize;
+            if (cellValues[i] === skullEmoji) {
+                rowSums[row]++;
+                columnSums[col]++;
+            }
+        }
+    
+        rowSumsContainer.innerHTML = '';
+        columnSumsContainer.innerHTML = '';
+
+        for (let i = 0; i < gridSize; i++) {
+            const rowSumElement = document.createElement("div");
+            rowSumElement.classList.add("sum");
+            rowSumElement.classList.add("hide");
+            rowSumElement.textContent = rowSums[i];
+            rowSumsContainer.appendChild(rowSumElement);
+    
+            const colSumElement = document.createElement("div");
+            colSumElement.classList.add("sum");
+            colSumElement.classList.add("hide");
+            colSumElement.textContent = columnSums[i];
+            columnSumsContainer.appendChild(colSumElement);
+        }
+    }
+
     function initializeGrid() {
         grid.innerHTML = '';
         grid.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
@@ -271,18 +310,31 @@ document.addEventListener("DOMContentLoaded", () => {
             seed = generateRandomSeed();
         }
 
-        const cellValues = [];
+        const cellValues = new Array(gridSize * gridSize).fill(appleEmoji);
 
-        let seedValue = parseInt(seed);
+        let seedValue = (parseInt(seed) * 100) + numSkulls;
         let randomFunction = LCG(seedValue);
 
-        for (let i = 0; i < gridSize * gridSize; i++) {
-            let random = randomFunction();
-            cellValues.push(random < skullSpawnRate ? skullEmoji : appleEmoji);
-        }
+        const isRowFree = randomFunction() > 0.5;
+        const freeIndex = Math.floor(randomFunction() * gridSize); 
 
-        let rowSums = new Array(gridSize).fill(0);
-        let columnSums = new Array(gridSize).fill(0);
+        let placedSkulls = 0;
+        while (placedSkulls < numSkulls) {
+            const randomIndex = Math.floor(randomFunction() * gridSize * gridSize);
+            const row = Math.floor(randomIndex / gridSize);
+            const col = randomIndex % gridSize;
+            
+            // Skip the free row or column
+            if ((isRowFree && row === freeIndex) || (!isRowFree && col === freeIndex)) {
+                continue;
+            }
+    
+            if (cellValues[randomIndex] !== skullEmoji) {
+                cellValues[randomIndex] = skullEmoji;
+                placedSkulls++;
+            }
+            if(placedSkulls >= gridSize * gridSize) break;
+        }
 
         for (let i = 0; i < gridSize * gridSize; i++) {
             const cell = document.createElement("div");
@@ -293,31 +345,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const col = i % gridSize;
             cell.textContent = `${getColumnLetter(col)}${row + 1}`;
             grid.appendChild(cell);
-
-            if (cellValues[i] === skullEmoji) {
-                rowSums[row]++;
-                columnSums[col]++;
-            }
         }
 
-        rowSumsContainer.innerHTML = '';
-        columnSumsContainer.innerHTML = '';
-        for (let i = 0; i < gridSize; i++) {
-            const sumElement = document.createElement("div");
-            sumElement.classList.add("sum");
-            sumElement.classList.add("hide");
-            sumElement.textContent = rowSums[i];
-            rowSumsContainer.appendChild(sumElement);
-        }
-
-        for (let i = 0; i < gridSize; i++) {
-            const sumElement = document.createElement("div");
-            sumElement.classList.add("sum");
-            sumElement.classList.add("hide");
-            sumElement.textContent = columnSums[i];
-            columnSumsContainer.appendChild(sumElement);
-        }
-
+        updateSums(gridSize, cellValues, rowSumsContainer, columnSumsContainer);
         stopTimerButton.disabled = true;
         stopTimer();
         hideSums();
@@ -359,7 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
         settingsModal.style.display = "block";
         timerLengthInput.value = timeLeft;
         boardSizeInput.value = gridSize;
-        skullRateInput.value = skullSpawnRate * 100;
+        numSkullsInput.value = numSkulls;
         seedInput.value = seed !== null ? seed : generateRandomSeed();
         stopTimer();
     });
@@ -371,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveSettingsButton.addEventListener("click", () => {
         const timerLength = parseInt(timerLengthInput.value);
         const boardSize = parseInt(boardSizeInput.value);
-        const skullRate = parseInt(skullRateInput.value);
+        const skullnum = parseInt(numSkullsInput.value);
         const seedValue = seedInput.value.trim();
 
         timeLeft = timerLength;
@@ -380,7 +410,10 @@ document.addEventListener("DOMContentLoaded", () => {
             gridSize = boardSize;
             initializeGrid();
         }
-        skullSpawnRate = skullRate / 100;
+        if(numSkulls != skullnum){
+            numSkulls = skullnum;
+            initializeGrid();
+        }
         if(seed != seedValue){
             seed = seedValue;
             initializeGrid();
@@ -394,7 +427,7 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteCookiesButton.addEventListener("click", () => {
         deleteCookie("timerLength");
         deleteCookie("gridSize");
-        deleteCookie("skullSpawnRate");
+        deleteCookie("numSkulls");
         deleteCookie("seed");
         localStorage.clear();
     });
@@ -413,7 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
         saveGameState();
         resetModal.style.display = "none";
     };
-
+    flipSkullButton.addEventListener("click", flipRandomSkull);
     startTimerButton.addEventListener("click", startTimer);
     stopTimerButton.addEventListener("click", stopTimer);
 
