@@ -25,7 +25,8 @@
                     <span class="slider round"></span>
                 </label>
             </div>
-            <button id="settings-button"><span class="gear-icon">⚙️</span> Settings</button>
+            <button id="settings-button"><span class="button-icon">⚙️</span> Settings</button>
+            <button id="kofi-button"><span class="button-icon">☕</span>Ko-fi</button>
         </div>
         <div class="main-content">
             <div id="grid-wrapper">
@@ -81,6 +82,14 @@
         <div class="modal-content">
             <span id="close-modal" class="close">&times;</span>
             <p>You have died 💀</p>
+        </div>
+    </div>
+    <div id="reset-modal" class="modal">
+        <div class="modal-content">
+            <h2>✋ Are you sure? ✋</h2>
+            <p class="disclaimer-text">Resetting the game will recreate the board with a new randomly generated seed. This will overwrite your current saved game. Are you sure you want to reset?</p>
+            <button id="confirm-reset-button">Yes, Reset</button>
+            <button id="cancel-reset-button">Cancel</button>
         </div>
     </div>
     <script src="script.js"></script>

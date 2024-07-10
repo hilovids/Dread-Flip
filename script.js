@@ -20,6 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const boardSizeInput = document.getElementById("board-size");
     const skullRateInput = document.getElementById("skull-rate");
     const seedInput = document.getElementById("seed");
+    const kofiButton = document.getElementById("kofi-button");
+    const resetModal = document.getElementById("reset-modal");
+    const confirmResetButton = document.getElementById("confirm-reset-button");
+    const cancelResetButton = document.getElementById("cancel-reset-button");
 
     const appleEmoji = "🍎";
     const skullEmoji = "💀";
@@ -134,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cell.textContent = cellState.value;
             } 
             else {
-                cell.textContent = `${getColumnLetter(col)}${row + 1}`; // Set coordinate label
+                cell.textContent = `${getColumnLetter(col)}${row + 1}`;
             }
             cell.dataset.value = cellState.value;
             cell.addEventListener("click", () => flipCell(cell));
@@ -162,14 +166,14 @@ document.addEventListener("DOMContentLoaded", () => {
             columnSumsContainer.appendChild(sumElement);
         }
 
-        stopTimerButton.disabled = true; // Disable stop timer button initially
+        stopTimerButton.disabled = true;
         stopTimer();
 
         return true;
     }
 
     function generateRandomSeed() {
-        return Math.floor(Math.random() * 1000000); // Generate a random integer seed
+        return Math.floor(Math.random() * 1000000);
     }
 
     function seededRandom(seed) {
@@ -188,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getColumnLetter(index) {
-        return String.fromCharCode(65 + index); // 65 is the char code for 'A'
+        return String.fromCharCode(65 + index);
     }
 
     function flipCell(cell) {
@@ -196,7 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
             cell.classList.add("flipped");
             cell.textContent = cell.dataset.value;
     
-            // Check if the selected tile is a skull
             if (cell.dataset.value === "💀") {
                 showModal();
             }
@@ -208,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function startTimer() {
         clearInterval(timer);
         timerDisplay.textContent = timeRemaining;
-        stopTimerButton.disabled = false; // Enable stop timer button
+        stopTimerButton.disabled = false;
         startTimerButton.disabled = true;
         showSums();
         timer = setInterval(() => {
@@ -217,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (timeRemaining <= 0) {
                 clearInterval(timer);
                 showModal();
-                stopTimerButton.disabled = true; // Enable stop timer button
+                stopTimerButton.disabled = true;
                 startTimerButton.disabled = false;
                 hideSums();
             }
@@ -229,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timeRemaining = timeLeft;
         timerDisplay.textContent = timeLeft;
         startTimerButton.disabled = false;
-        stopTimerButton.disabled = true; // Enable stop timer button
+        stopTimerButton.disabled = true;
         hideSums();
     }
 
@@ -251,10 +254,8 @@ document.addEventListener("DOMContentLoaded", () => {
         grid.innerHTML = '';
         grid.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
         grid.style.gridTemplateRows = `repeat(${gridSize}, 60px)`;
-        rowSumsContainer.innerHTML = '';
-        columnSumsContainer.innerHTML = '';
         if (seed === null) {
-            seed = generateRandomSeed(); // Generate a random seed if null
+            seed = generateRandomSeed();
         }
 
         const cellValues = [];
@@ -276,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cell.addEventListener("click", () => flipCell(cell));
             const row = Math.floor(i / gridSize);
             const col = i % gridSize;
-            cell.textContent = `${getColumnLetter(col)}${row + 1}`; // Set coordinate label
+            cell.textContent = `${getColumnLetter(col)}${row + 1}`;
             grid.appendChild(cell);
 
             if (cellValues[i] === skullEmoji) {
@@ -285,6 +286,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        rowSumsContainer.innerHTML = '';
+        columnSumsContainer.innerHTML = '';
         for (let i = 0; i < gridSize; i++) {
             const sumElement = document.createElement("div");
             sumElement.classList.add("sum");
@@ -301,10 +304,24 @@ document.addEventListener("DOMContentLoaded", () => {
             columnSumsContainer.appendChild(sumElement);
         }
 
-        stopTimerButton.disabled = true; // Disable stop timer button initially
+        stopTimerButton.disabled = true;
         stopTimer();
         hideSums();
     }
+
+    window.onclick = function(event) {
+        if (event.target == deathModal) {
+            deathModal.style.display = "none";
+
+        }
+        if(event.target == settingsModal){
+            settingsModal.style.display = "none";
+        }
+        if (event.target == resetModal) {
+            resetModal.style.display = "none";
+        }
+        stopTimer();
+    };
 
     themeToggleCheckbox.addEventListener("change", () => {
         if (themeToggleCheckbox.checked) {
@@ -321,14 +338,6 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal.onclick = function() {
         deathModal.style.display = "none";
         stopTimer();
-    };
-
-    window.onclick = function(event) {
-        if (event.target == deathModal || event.target == settingsModal) {
-            deathModal.style.display = "none";
-            settingsModal.style.display = "none";
-            stopTimer();
-        }
     };
 
     settingsButton.addEventListener("click", () => {
@@ -350,7 +359,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const skullRate = parseInt(skullRateInput.value);
         const seedValue = seedInput.value.trim();
 
-        // Update the game settings
         timeLeft = timerLength;
 
         if(boardSize != gridSize){
@@ -377,14 +385,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     resetButton.addEventListener("click", () => {
+        resetModal.style.display = "block";
+    });
+
+    cancelResetButton.onclick = function() {
+        resetModal.style.display = "none";
+    };
+
+    confirmResetButton.onclick = function() {
         seed = generateRandomSeed();
         initializeGrid();
-    });
+        saveGameState();
+        resetModal.style.display = "none";
+    };
+
     startTimerButton.addEventListener("click", startTimer);
     stopTimerButton.addEventListener("click", stopTimer);
 
+    kofiButton.addEventListener("click", () => {
+        window.open("https://ko-fi.com/hilovids/donate", "_blank");
+    });
+
+
     if (!loadGameState()) {
-        initializeGrid(); // If no game state is found, initialize a new grid
+        initializeGrid();
     }
     setInitialTheme();
 

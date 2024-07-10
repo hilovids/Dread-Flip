@@ -64,7 +64,7 @@ h1 {
     color: white;
     margin-left: 10px;
     overflow: hidden;
-    transition: color 0.3s ease; /* Smooth transition for opacity */
+    transition: color 0.3s ease;
 }
 
 .hide {
@@ -113,7 +113,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Modal background */
 .modal {
     display: none;
     position: fixed;
@@ -122,25 +121,24 @@ button:disabled {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Modal content */
 .modal-content {
     background-color: white;
     margin: auto;
     padding: 20px;
     border: 1px solid #585858;
-    width: 80%; /* Adjust as needed */
-    max-width: 500px; /* Optional, to limit the width */
+    width: 80%;
+    max-width: 500px;
     text-align: center;
     font-size: 24px;
     color: black;
-    box-sizing: border-box; /* Include padding in width calculation */
-    position: relative; /* Center vertically */
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Center vertically */
+    box-sizing: border-box;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .close {
@@ -158,27 +156,35 @@ button:disabled {
 }
 
 .timer-container {
-    display: inline-block; /* Ensures it behaves like a block but respects other inline elements */
-    padding: 10px; /* Adjust padding for spacing */
-    background-color: #dfbc72; /* Match background color to button */
-    border-radius: 5px; /* Match border radius to button */
+    display: inline-block;
+    padding: 10px;
+    background-color: #dfbc72;
+    border-radius: 5px;
     font-size: 16px;
 }
 
 .timer-container .timer-icon {
-    margin-right: 5px; /* Add margin between icon and text */
-    vertical-align: middle; /* Align icon vertically with text */
-    line-height: 1; /* Ensure proper line height */
+    margin-right: 5px;
+    vertical-align: middle;
+    line-height: 1;
 }
 
 #timer-display {
-    vertical-align: middle; /* Align text vertically with icon */
-    line-height: 1; /* Ensure proper line height */
-    color: rgb(112, 84, 61); /* Match text color to button */
+    vertical-align: middle;
+    line-height: 1;
+    color: rgb(112, 84, 61);
 }
 
 button#reset-button{
- background-color: rgb(126, 22, 22);
+    background-color: rgb(126, 22, 22);
+}
+
+#confirm-reset-button{
+    background-color: rgb(126, 22, 22);
+}
+
+#confirm-reset-button:hover{
+    background-color: rgb(70, 10, 10);
 }
 
 button#reset-button:hover{
@@ -246,7 +252,6 @@ body.dark-mode .theme-toggle{
     background-color: #887339;
 }
 
-/* Text label for the theme toggle */
 #theme-label {
     font-size: 16px;
     vertical-align: middle;
@@ -266,7 +271,7 @@ body.dark-mode .theme-toggle{
     border-radius: 8px;
     width: 250px;
     font-size: 14px;
-    text-align: left; /* Align text to the left */
+    text-align: left;
 }
 
 body.dark-mode .info-panel {
@@ -276,7 +281,7 @@ body.dark-mode .info-panel {
 
 .info-panel h2 {
     margin-top: 0;
-    text-align: center; /* Ensure the heading is also aligned to the left */
+    text-align: center;
 }
 
 #settings-form label {
@@ -290,25 +295,23 @@ body.dark-mode .info-panel {
     justify-content: center;
 }
 
-/* Style for the labels */
 .form-group label {
-    width: 200px; /* Adjust as needed */
+    width: 200px;
     margin-right: 10px;
     font-size: 16px;
     text-align: right;
 }
 
-/* Style for the input boxes in the settings modal */
 #settings-form input {
     width: 100px;
-    padding: 10px; /* Add padding for better appearance */
-    font-size: 16px; /* Consistent font size */
-    border: 1px solid #ccc; /* Border for input boxes */
-    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 #save-settings-button {
-    background-color: #75baf1;
+    background-color: #78C2FF;
     line-height: 1;
 }
 
@@ -316,12 +319,12 @@ body.dark-mode .info-panel {
     background-color: #3a74a3;
 }
 
-.gear-icon {
+.button-icon {
     line-height: 1;
 }
 
 #settings-button {
-    background-color: #75baf1;
+    background-color: #78C2FF;
 }
 
 #settings-button:hover {
@@ -330,7 +333,6 @@ body.dark-mode .info-panel {
 
 .disclaimer-text {
     font-weight: bold;
-    width: 500px;
     font-size: 16px;
 }
 
@@ -341,4 +343,12 @@ body.dark-mode .info-panel {
 
 #delete-cookies-button:hover {
     background-color: #8a6535;
+}
+
+#kofi-button {
+    background-color: #FF5E5B;
+}
+
+#kofi-button:hover {
+    background-color: #b12c2a;
 }
