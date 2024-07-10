@@ -215,11 +215,13 @@ document.addEventListener("DOMContentLoaded", () => {
         startTimerButton.disabled = true;
         showSums();
         timer = setInterval(() => {
+            console.log(timeRemaining)
             timeRemaining--;
             timerDisplay.textContent = timeRemaining;
             if (timeRemaining <= 0) {
                 clearInterval(timer);
                 showModal();
+                timeRemaining = timeLeft;
                 stopTimerButton.disabled = true;
                 startTimerButton.disabled = false;
                 hideSums();
@@ -312,15 +314,16 @@ document.addEventListener("DOMContentLoaded", () => {
     window.onclick = function(event) {
         if (event.target == deathModal) {
             deathModal.style.display = "none";
-
+            stopTimer();
         }
         if(event.target == settingsModal){
             settingsModal.style.display = "none";
+            stopTimer();
         }
         if (event.target == resetModal) {
             resetModal.style.display = "none";
+            stopTimer();
         }
-        stopTimer();
     };
 
     themeToggleCheckbox.addEventListener("change", () => {
