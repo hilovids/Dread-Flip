@@ -175,8 +175,24 @@ button:disabled {
     color: rgb(112, 84, 61);
 }
 
-#reset-button, #flip-skull-button{
+#flip-skull-button{
+    background-color: rgb(79, 54, 114);
+}
+
+#flip-skull-button:hover{
+    background-color: rgb(52, 33, 80);
+}
+
+#reset-button{
     background-color: rgb(126, 22, 22);
+}
+
+#flip-apple-button{
+    background-color: rgb(48, 154, 37);
+}
+
+#flip-apple-button:hover{
+    background-color: rgb(29, 95, 21);
 }
 
 #confirm-reset-button{
@@ -187,7 +203,7 @@ button:disabled {
     background-color: rgb(70, 10, 10);
 }
 
-#reset-button:hover, #flip-skull-button:hover{
+#reset-button:hover{
     background-color: rgb(70, 10, 10);
 }
 

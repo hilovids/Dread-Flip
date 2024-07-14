@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmResetButton = document.getElementById("confirm-reset-button");
     const cancelResetButton = document.getElementById("cancel-reset-button");
     const flipSkullButton = document.getElementById("flip-skull-button");
+    const flipAppleButton = document.getElementById("flip-apple-button");
+
 
     const appleEmoji = "🍎";
     const skullEmoji = "💀";
@@ -177,12 +179,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const cells = Array.from(document.querySelectorAll(".cell"));
         const skullCells = cells.filter(cell => cell.dataset.value === "💀" && !cell.classList.contains("flipped"));
 
+        stopTimer();
         if (skullCells.length > 0) {
             const randomIndex = Math.floor(Math.random() * skullCells.length);
             flipCell(skullCells[randomIndex]);
         } 
         else {
             alert("No unflipped skulls available!");
+        }
+    }
+
+    function flipRandomApple() {
+        const cells = Array.from(document.querySelectorAll(".cell"));
+        const appleCells = cells.filter(cell => cell.dataset.value === appleEmoji && !cell.classList.contains("flipped"));
+
+        stopTimer();
+        if (appleCells.length > 0) {
+            const randomIndex = Math.floor(Math.random() * appleCells.length);
+            flipCell(appleCells[randomIndex]);
+        } 
+        else {
+            alert("No unflipped apples available!");
         }
     }
 
@@ -447,6 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
         resetModal.style.display = "none";
     };
     flipSkullButton.addEventListener("click", flipRandomSkull);
+    flipAppleButton.addEventListener("click", flipRandomApple);
     startTimerButton.addEventListener("click", startTimer);
     stopTimerButton.addEventListener("click", stopTimer);
 
