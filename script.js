@@ -366,8 +366,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function flipCell(cell) {
-
+        
         if (!cell.classList.contains('flipped')) {
+            stopTimer();
             cell.classList.add('shake');
             setTimeout(() => {
                 cell.classList.remove('shake');
@@ -381,17 +382,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }, 600);
             }, 300);
         }
-
-        // if (!cell.classList.contains("flipped")) {
-        //     cell.classList.add("flipped");
-        //     cell.textContent = cell.dataset.value;
-    
-        //     if (cell.dataset.value === skullEmoji) {
-        //         showModal();
-        //     }
-
-        //     saveGameState();
-        // }
     }
 
     function startTimer() {
