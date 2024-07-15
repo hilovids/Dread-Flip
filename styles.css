@@ -64,7 +64,7 @@ h1 {
 }
 
 .grid .cell:not(.flipped):hover::before {
-    filter: brightness(0.8); /* Darken the background color */
+    filter: brightness(0.6); /* Darken the background color */
 }
 
 .grid .cell.flipped::before {
