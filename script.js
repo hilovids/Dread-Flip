@@ -745,6 +745,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setCookie("zombieEmoji", defaultSettings.zombieEmoji, 365);
 
         body.classList.remove("customize-sidebar-open");
+        customizeButton.classList.remove("hidden");
         saveGameState();
     });
 

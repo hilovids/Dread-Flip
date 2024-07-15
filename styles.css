@@ -109,6 +109,7 @@ button {
     color: white;
     border: none;
     border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 button:hover {
@@ -389,7 +390,7 @@ body.dark-mode .info-panel {
     transition: 0.5s;
     color: white;
     box-sizing: border-box;
-    padding-top: 60px; /* Adjust padding to fit the button */
+    padding-top: 30px; /* Adjust padding to fit the button */
 }
 
 .customize-section {
@@ -459,18 +460,26 @@ body.customize-sidebar-open #main-content {
 }
 
 .close-customize-button {
-    position: absolute;
-    top: 10px;
-    right: 20px;
+    position: fixed;
+    top: 20px;
+    left: 310px;
+    z-index: 1100; /* Ensure it stays on top */
     font-size: 24px;
     background: none;
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
     border: none;
     cursor: pointer;
+    display: none;
 }
 
 .close-customize-button:hover {
     color: #ccc;
+    background-color: rgba(134, 134, 134, 0.8);
+}
+
+body.customize-sidebar-open .close-customize-button {
+    display: block;
 }
 
 .customize-container {
@@ -520,4 +529,42 @@ emoji-picker {
 
 emoji-picker.expanded {
     max-height: 300px;
+}
+
+.customize-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.customize-sidebar::-webkit-scrollbar-track {
+    background: #111;
+}
+
+.customize-sidebar::-webkit-scrollbar-thumb {
+    background-color: #444; 
+    border-radius: 4px;
+    border: 2px solid #111; 
+}
+
+.customize-sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Scrollbar styling for Firefox */
+.customize-sidebar {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #111;
+}
+
+.customize-sidebar::-webkit-scrollbar-track {
+    background: #111;
+}
+
+.customize-sidebar::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 4px;
+    border: 2px solid #111;
+}
+
+.customize-sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
