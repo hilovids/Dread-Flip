@@ -9,8 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const timerDisplay = document.getElementById("timer-display");
     const deathModal = document.getElementById("death-modal");
     const closeModal = document.getElementById("close-modal");
-    const themeToggleCheckbox = document.getElementById("theme-toggle-checkbox");
-    const themeLabel = document.getElementById("theme-label");
     const settingsButton = document.getElementById("settings-button");
     const settingsModal = document.getElementById("settings-modal");
     const closeSettingsModal = document.getElementById("close-settings-modal");
@@ -26,10 +24,44 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelResetButton = document.getElementById("cancel-reset-button");
     const flipSkullButton = document.getElementById("flip-skull-button");
     const flipAppleButton = document.getElementById("flip-apple-button");
+    const customizeButton = document.getElementById("customize-button");
+    const customizeSidebar = document.getElementById("customize-sidebar");
+    const backgroundColorPicker = document.getElementById("background-color-picker");
+    const headerTextColorPicker = document.getElementById("header-text-color-picker");
+    const infoPanelColorPicker = document.getElementById("info-panel-color-picker");
+    const infoPanelTextColorPicker = document.getElementById("info-panel-text-color-picker");
+    const gridUnflippedColorPicker = document.getElementById("grid-unflipped-color-picker");
+    const gridFlippedColorPicker = document.getElementById("grid-flipped-color-picker");
+    const gridTextColorPicker = document.getElementById("grid-text-color-picker");
+    const gridHeaderColorPicker = document.getElementById("grid-header-color-picker");
+    const gridHeaderTextColorPicker = document.getElementById("grid-header-text-color-picker");
+    const skullEmojiPicker = document.getElementById("skull-emoji-picker");
+    const appleEmojiPicker = document.getElementById("apple-emoji-picker");
+    const zombieEmojiPicker = document.getElementById("zombie-emoji-picker");
+    const resetCustomizationsButton = document.getElementById("reset-customizations-button");
+    const closeCustomizeButton = document.getElementById("close-customize-button");
+    const skullEmojiPickerElement = document.getElementById("skull-emoji-picker-element");
+    const appleEmojiPickerElement = document.getElementById("apple-emoji-picker-element");
+    const zombieEmojiPickerElement = document.getElementById("zombie-emoji-picker-element");
 
+    let skullEmoji = getCookie("skullEmoji") || "💀";
+    let appleEmoji = getCookie("appleEmoji") || "🍎";
+    let zombieEmoji = getCookie("zombieEmoji") || "🧟";
 
-    const appleEmoji = "🍎";
-    const skullEmoji = "💀";
+    const defaultSettings = {
+        backgroundColor: "#333333",
+        headerTextColor: "#ffffff",
+        infoPanelColor: "#1C611E",
+        infoPanelTextColor: "#ffffff",
+        gridUnflippedColor: "#4caf50",
+        gridFlippedColor: "#ffffff",
+        gridTextColor: "#c8f8a9",
+        gridHeaderColor: "#2196f3",
+        gridHeaderTextColor: "#ffffff",
+        skullEmoji: "💀",
+        appleEmoji: "🍎",
+        zombieEmoji: "🧟"
+    };
 
     let seed = null;
     let gridSize = 8;
@@ -37,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let timeRemaining = 60;
     let timer;
     let timeLeft = 60;
-    let darkMode = true;
 
     function setCookie(name, value, days) {
         const d = new Date();
@@ -71,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
         setCookie("gridSize", gridSize, 365);
         setCookie("numSkulls", numSkulls, 365);
         setCookie("seed", seed, 365);
-        setCookie("darkMode", darkMode, 365);
     }
 
     function saveGameState() {
@@ -89,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const gridSizeCookie = getCookie("gridSize");
         const numSkullsCookie = getCookie("numSkulls");
         const seedCookie = getCookie("seed");
-        const darkModeCookie = getCookie("darkMode");
     
         if (timerLengthCookie) {
             timeLeft = parseInt(timerLengthCookie);
@@ -103,25 +132,139 @@ document.addEventListener("DOMContentLoaded", () => {
         if (seedCookie) {
             seed = seedCookie !== "null" ? seedCookie : null;
         }
-        if (darkModeCookie) {
-            darkMode = darkModeCookie === "true";
-            if(darkMode){
-                themeToggleCheckbox.checked = true;
-                body.classList.add("dark-mode");
-                themeLabel.textContent = "🌜";
-            }
-            else {
-                themeToggleCheckbox.checked = false;
-                body.classList.remove("dark-mode");
-                themeLabel.textContent = "🌞";
-            }
 
+        const backgroundColor = getCookie("backgroundColor");
+        const headerTextColor = getCookie("headerTextColor");
+        const infoPanelColor = getCookie("infoPanelColor");
+        const infoPanelTextColor = getCookie("infoPanelTextColor");
+        const gridUnflippedColor = getCookie("gridUnflippedColor");
+        const gridFlippedColor = getCookie("gridFlippedColor");
+        const gridTextColor = getCookie("gridTextColor");
+        const gridHeaderColor = getCookie("gridHeaderColor");
+        const gridHeaderTextColor = getCookie("gridHeaderTextColor");
+        const savedSkullEmoji = getCookie("skullEmoji");
+        const savedAppleEmoji = getCookie("appleEmoji");
+        const savedZombieEmoji = getCookie("zombieEmoji");
+        
+        if (backgroundColor) {
+            document.body.style.backgroundColor = backgroundColor;
+            backgroundColorPicker.value = backgroundColor;
+        } else {
+            backgroundColorPicker.value = defaultSettings.backgroundColor;
+        }
+        if (headerTextColor) {
+            document.querySelector("h1").style.color = headerTextColor;
+            headerTextColorPicker.value = headerTextColor;
+        } 
+        else {
+            headerTextColorPicker.value = defaultSettings.headerTextColor;
+        }
+        if (infoPanelColor) {
+            document.querySelector(".info-panel").style.backgroundColor = infoPanelColor;
+            infoPanelColorPicker.value = infoPanelColor;
+        } 
+        else {
+            infoPanelColorPicker.value = defaultSettings.infoPanelColor;
+        }
+        if (infoPanelTextColor) {
+            document.querySelector(".info-panel").style.color = infoPanelTextColor;
+            infoPanelTextColorPicker.value = infoPanelTextColor;
+        } 
+        else {
+            infoPanelTextColorPicker.value = defaultSettings.infoPanelTextColor;
+        }
+        if (gridUnflippedColor) {
+            document.documentElement.style.setProperty('--grid-unflipped-color', gridUnflippedColor);
+            gridUnflippedColorPicker.value = gridUnflippedColor;
+        } 
+        else {
+            gridUnflippedColorPicker.value = defaultSettings.gridUnflippedColor;
+        }
+        if (gridFlippedColor) {
+            document.documentElement.style.setProperty('--grid-flipped-color', gridFlippedColor);
+            gridFlippedColorPicker.value = gridFlippedColor;
+        } 
+        else {
+            gridFlippedColorPicker.value = defaultSettings.gridFlippedColor;
+        }
+        if (gridTextColor) {
+            document.documentElement.style.setProperty('--grid-text-color', gridTextColor);
+            gridTextColorPicker.value = gridTextColor;
+        } 
+        else {
+            gridTextColorPicker.value = defaultSettings.gridTextColor;
+        }
+        if (gridHeaderColor) {
+            document.documentElement.style.setProperty('--grid-header-color', gridHeaderColor);
+            gridHeaderColorPicker.value = gridHeaderColor;
+        } 
+        else {
+            gridHeaderColorPicker.value = defaultSettings.gridHeaderColor;
+        }
+        if (gridHeaderTextColor) {
+            document.documentElement.style.setProperty('--grid-header-text-color', gridHeaderTextColor);
+            gridHeaderTextColorPicker.value = gridHeaderTextColor;
+        } 
+        else {
+            gridHeaderTextColorPicker.value = defaultSettings.gridHeaderTextColor;
+        }
+        if (savedSkullEmoji) {
+            updateEmoji("skull", savedSkullEmoji);
+            skullEmojiPicker.value = savedSkullEmoji;
+        } 
+        else {
+            skullEmojiPicker.value = defaultSettings.skullEmoji;
+        }
+        if (savedAppleEmoji) {
+            updateEmoji("apple", savedAppleEmoji);
+            appleEmojiPicker.value = savedAppleEmoji;
+        } 
+        else {
+            appleEmojiPicker.value = defaultSettings.appleEmoji;
+        }
+        if (savedZombieEmoji) {
+            updateEmoji("zombie", savedZombieEmoji);
+            zombieEmojiPicker.value = savedZombieEmoji;
+        } else {
+            zombieEmojiPicker.value = defaultSettings.zombieEmoji;
+        }
+
+        skullEmoji = savedSkullEmoji || skullEmoji;
+        appleEmoji = savedAppleEmoji || appleEmoji;
+        zombieEmoji = savedZombieEmoji || zombieEmoji;
+    }
+
+    function updateEmoji(type, value) {
+        if (type === "skull") {
+            document.querySelectorAll(`.cell[data-value='${skullEmoji}']`).forEach(cell => {
+                cell.dataset.value = value
+                if (cell.classList.contains("flipped")) {
+                    cell.textContent = value;
+                }
+            });
+            document.getElementById("flip-skull-button").innerHTML = `Flip <span class="button-icon">${value}</span>`;
+            document.getElementById("death-modal-text").textContent = `${value} You Have Died ${value}`;
+            skullEmoji = value;
+        } 
+        else if (type === "apple") {
+            document.querySelectorAll(`.cell[data-value='${appleEmoji}']`).forEach(cell => {
+                cell.dataset.value = value
+                if (cell.classList.contains("flipped")) {
+                    cell.textContent = value;
+                }
+            });
+            document.getElementById("flip-apple-button").innerHTML = `Flip <span class="button-icon">${value}</span>`;
+            appleEmoji = value;
+        } 
+        else if (type === "zombie") {
+            document.querySelector("h1").innerHTML = value + " Dread Flip - An Online Tool for Dread " + value;
         }
     }
 
     function loadGameState() {
         loadSettingsFromCookies();
         const gameState = JSON.parse(localStorage.getItem("gameState"));
+        console.log(gameState);
         if (!gameState) return false;
     
         grid.innerHTML = '';
@@ -177,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function flipRandomSkull() {
         const cells = Array.from(document.querySelectorAll(".cell"));
-        const skullCells = cells.filter(cell => cell.dataset.value === "💀" && !cell.classList.contains("flipped"));
+        const skullCells = cells.filter(cell => cell.dataset.value === skullEmoji && !cell.classList.contains("flipped"));
 
         stopTimer();
         if (skullCells.length > 0) {
@@ -218,16 +361,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    function setInitialTheme() {
-        if (themeToggleCheckbox.checked) {
-            body.classList.add("dark-mode");
-            themeLabel.textContent = "🌜";
-        } else {
-            body.classList.remove("dark-mode");
-            themeLabel.textContent = "🌞";
-        }
-    }
-
     function getColumnLetter(index) {
         return String.fromCharCode(65 + index);
     }
@@ -237,7 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cell.classList.add("flipped");
             cell.textContent = cell.dataset.value;
     
-            if (cell.dataset.value === "💀") {
+            if (cell.dataset.value === skullEmoji) {
                 showModal();
             }
 
@@ -319,6 +452,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function validateEmojiSelection(type, emoji) {
+        if (type === "skull" && emoji === appleEmojiPicker.value) {
+            alert("The death emoji cannot be the same as the life emoji.");
+            return false;
+        }
+        if (type === "apple" && emoji === skullEmojiPicker.value) {
+            alert("The life emoji cannot be the same as the death emoji.");
+            return false;
+        }
+        return true;
+    }
+
     function initializeGrid() {
         grid.innerHTML = '';
         grid.style.gridTemplateColumns = `repeat(${gridSize}, 60px)`;
@@ -348,6 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
             if (cellValues[randomIndex] !== skullEmoji) {
                 cellValues[randomIndex] = skullEmoji;
+                console.log(skullEmoji);
                 placedSkulls++;
             }
             if(placedSkulls >= gridSize * gridSize) break;
@@ -370,6 +516,37 @@ document.addEventListener("DOMContentLoaded", () => {
         hideSums();
     }
 
+    function resetColors(){
+        document.body.style.backgroundColor = defaultSettings.backgroundColor;
+        document.querySelector("h1").style.color = defaultSettings.headerTextColor;
+        document.querySelector(".info-panel").style.backgroundColor = defaultSettings.infoPanelColor;
+        document.querySelector(".info-panel").style.color = defaultSettings.infoPanelTextColor;
+        document.documentElement.style.setProperty('--grid-unflipped-color', defaultSettings.gridUnflippedColor);
+        document.documentElement.style.setProperty('--grid-flipped-color', defaultSettings.gridFlippedColor);
+        document.documentElement.style.setProperty('--grid-text-color', defaultSettings.gridTextColor);
+        document.documentElement.style.setProperty('--grid-header-color', defaultSettings.gridHeaderColor);
+        document.documentElement.style.setProperty('--grid-header-text-color', defaultSettings.gridHeaderTextColor);
+
+        // Reset emojis
+        updateEmoji("skull", defaultSettings.skullEmoji);
+        updateEmoji("apple", defaultSettings.appleEmoji);
+        updateEmoji("zombie", defaultSettings.zombieEmoji);
+
+        // Reset pickers to default values
+        backgroundColorPicker.value = defaultSettings.backgroundColor;
+        headerTextColorPicker.value = defaultSettings.headerTextColor;
+        infoPanelColorPicker.value = defaultSettings.infoPanelColor;
+        infoPanelTextColorPicker.value = defaultSettings.infoPanelTextColor;
+        gridUnflippedColorPicker.value = defaultSettings.gridUnflippedColor;
+        gridFlippedColorPicker.value = defaultSettings.gridFlippedColor;
+        gridTextColorPicker.value = defaultSettings.gridTextColor;
+        gridHeaderColorPicker.value = defaultSettings.gridHeaderColor;
+        gridHeaderTextColorPicker.value = defaultSettings.gridHeaderTextColor;
+        skullEmojiPicker.value = defaultSettings.skullEmoji;
+        appleEmojiPicker.value = defaultSettings.appleEmoji;
+        zombieEmojiPicker.value = defaultSettings.zombieEmoji;
+    }
+
     window.onclick = function(event) {
         if (event.target == deathModal) {
             deathModal.style.display = "none";
@@ -384,18 +561,6 @@ document.addEventListener("DOMContentLoaded", () => {
             stopTimer();
         }
     };
-
-    themeToggleCheckbox.addEventListener("change", () => {
-        if (themeToggleCheckbox.checked) {
-            body.classList.add("dark-mode");
-            themeLabel.textContent = "🌜";
-        } else {
-            body.classList.remove("dark-mode");
-            themeLabel.textContent = "🌞";
-        }
-        darkMode = themeToggleCheckbox.checked;
-        saveSettingsToCookies();
-    });
 
     closeModal.onclick = function() {
         deathModal.style.display = "none";
@@ -437,7 +602,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         stopTimer();
         saveGameState();
-
         settingsModal.style.display = "none";
     });
 
@@ -446,7 +610,21 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteCookie("gridSize");
         deleteCookie("numSkulls");
         deleteCookie("seed");
+        deleteCookie("backgroundColor");
+        deleteCookie("headerTextColor");
+        deleteCookie("infoPanelColor");
+        deleteCookie("infoPanelTextColor");
+        deleteCookie("gridUnflippedColor");
+        deleteCookie("gridFlippedColor");
+        deleteCookie("gridTextColor");
+        deleteCookie("gridHeaderColor");
+        deleteCookie("gridHeaderTextColor");
+        deleteCookie("skullEmoji");
+        deleteCookie("appleEmoji");
+        deleteCookie("zombieEmoji");
+        resetColors();
         localStorage.clear();
+        initializeGrid();
     });
 
     resetButton.addEventListener("click", () => {
@@ -463,19 +641,137 @@ document.addEventListener("DOMContentLoaded", () => {
         saveGameState();
         resetModal.style.display = "none";
     };
+
+    backgroundColorPicker.addEventListener("input", (event) => {
+        document.body.style.backgroundColor = event.target.value;
+        setCookie("backgroundColor", event.target.value, 365);
+    });
+
+    headerTextColorPicker.addEventListener("input", (event) => {
+        document.querySelector("h1").style.color = event.target.value;
+        setCookie("headerTextColor", event.target.value, 365);
+    });
+
+    infoPanelColorPicker.addEventListener("input", (event) => {
+        document.querySelector(".info-panel").style.backgroundColor = event.target.value;
+        setCookie("infoPanelColor", event.target.value, 365);
+    });
+
+    infoPanelTextColorPicker.addEventListener("input", (event) => {
+        document.querySelector(".info-panel").style.color = event.target.value;
+        setCookie("infoPanelTextColor", event.target.value, 365);
+    });
+
+    gridUnflippedColorPicker.addEventListener("input", (event) => {
+        document.documentElement.style.setProperty('--grid-unflipped-color', event.target.value);
+        setCookie("gridUnflippedColor", event.target.value, 365);
+    });
+
+    gridFlippedColorPicker.addEventListener("input", (event) => {
+        document.documentElement.style.setProperty('--grid-flipped-color', event.target.value);
+        setCookie("gridFlippedColor", event.target.value, 365);
+    });
+
+    gridTextColorPicker.addEventListener("input", (event) => {
+        document.documentElement.style.setProperty('--grid-text-color', event.target.value);
+        setCookie("gridTextColor", event.target.value, 365);
+    });
+
+    gridHeaderColorPicker.addEventListener("input", (event) => {
+        document.documentElement.style.setProperty('--grid-header-color', event.target.value);
+        setCookie("gridHeaderColor", event.target.value, 365);
+    });
+
+    gridHeaderTextColorPicker.addEventListener("input", (event) => {
+        document.documentElement.style.setProperty('--grid-header-text-color', event.target.value);
+        setCookie("gridHeaderTextColor", event.target.value, 365);
+    });
+
+    document.getElementById("skull-emoji-picker-element").addEventListener('emoji-click', event => {
+        const emoji = event.detail.unicode;
+        if (validateEmojiSelection("skull", emoji)) {
+            skullEmojiPicker.value = emoji;
+            updateEmoji("skull", emoji);
+            setCookie("skullEmoji", emoji, 365);
+            saveGameState();
+        }
+    });
+
+    document.getElementById("apple-emoji-picker-element").addEventListener('emoji-click', event => {
+        const emoji = event.detail.unicode;
+        if (validateEmojiSelection("apple", emoji)) {
+            appleEmojiPicker.value = emoji;
+            updateEmoji("apple", emoji);
+            setCookie("appleEmoji", emoji, 365);
+            saveGameState();
+        }
+    });
+
+    document.getElementById("zombie-emoji-picker-element").addEventListener('emoji-click', event => {
+        const emoji = event.detail.unicode;
+        zombieEmojiPicker.value = emoji;
+        updateEmoji("zombie", emoji);
+        setCookie("zombieEmoji", emoji, 365);
+        saveGameState();
+    });
+
+    customizeButton.addEventListener("click", () => {
+        body.classList.toggle("customize-sidebar-open");
+        customizeButton.classList.add("hidden");
+    });
+
+    closeCustomizeButton.addEventListener("click", () => {
+        body.classList.remove("customize-sidebar-open");
+        customizeButton.classList.remove("hidden");
+        setTimeout(() => appleEmojiPickerElement.classList.remove('expanded'), 200);
+        setTimeout(() => skullEmojiPickerElement.classList.remove('expanded'), 200);
+        setTimeout(() => zombieEmojiPickerElement.classList.remove('expanded'), 200);
+    });
+
+    resetCustomizationsButton.addEventListener("click", () => {
+        resetColors();
+
+        setCookie("backgroundColor", defaultSettings.backgroundColor, 365);
+        setCookie("headerTextColor", defaultSettings.headerTextColor, 365);
+        setCookie("infoPanelColor", defaultSettings.infoPanelColor, 365);
+        setCookie("infoPanelTextColor", defaultSettings.infoPanelTextColor, 365);
+        setCookie("gridUnflippedColor", defaultSettings.gridUnflippedColor, 365);
+        setCookie("gridFlippedColor", defaultSettings.gridFlippedColor, 365);
+        setCookie("gridTextColor", defaultSettings.gridTextColor, 365);
+        setCookie("gridHeaderColor", defaultSettings.gridHeaderColor, 365);
+        setCookie("gridHeaderTextColor", defaultSettings.gridHeaderTextColor, 365);
+        setCookie("skullEmoji", defaultSettings.skullEmoji, 365);
+        setCookie("appleEmoji", defaultSettings.appleEmoji, 365);
+        setCookie("zombieEmoji", defaultSettings.zombieEmoji, 365);
+
+        body.classList.remove("customize-sidebar-open");
+        saveGameState();
+    });
+
+    skullEmojiPicker.addEventListener("focus", () => {
+        skullEmojiPickerElement.classList.add('expanded');
+    });
+
+    appleEmojiPicker.addEventListener("focus", () => {
+        appleEmojiPickerElement.classList.add('expanded');
+    });
+
+    zombieEmojiPicker.addEventListener("focus", () => {
+        zombieEmojiPickerElement.classList.add('expanded');
+    });
+
     flipSkullButton.addEventListener("click", flipRandomSkull);
     flipAppleButton.addEventListener("click", flipRandomApple);
     startTimerButton.addEventListener("click", startTimer);
     stopTimerButton.addEventListener("click", stopTimer);
 
+    body.classList.remove("customize-sidebar-open");
+
     kofiButton.addEventListener("click", () => {
         window.open("https://ko-fi.com/hilovids/donate", "_blank");
     });
 
-
     if (!loadGameState()) {
         initializeGrid();
     }
-    setInitialTheme();
-
 });

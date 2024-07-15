@@ -1,3 +1,11 @@
+:root {
+    --grid-text-color: #c8f8a9;
+    --grid-unflipped-color: #4caf50;
+    --grid-flipped-color: #ffffff;
+    --grid-header-color: #2196f3;
+    --grid-header-text-color: #ffffff;
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -30,19 +38,17 @@ h1 {
 .cell {
     width: 60px;
     height: 60px;
-    background-color: #4caf50;
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    background-color: var(--grid-unflipped-color);
     font-size: 24px;
-    color: rgb(200, 248, 169);
 }
 
 .cell.flipped {
-    background-color: #fff;
-    color: #000;
+    background-color: var(--grid-flipped-color);
     cursor: default;
 }
 
@@ -55,20 +61,20 @@ h1 {
 .sums .sum {
     width: 60px;
     height: 60px;
-    background-color: #2196f3;
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    color: white;
     margin-left: 10px;
     overflow: hidden;
     transition: color 0.3s ease;
+    background-color: var(--grid-header-color);
+    color: var(--grid-header-text-color);
 }
 
 .hide {
-    color: #2196f3 !important;
+    color: var(--grid-header-color) !important;
 }
 
 #column-sums {
@@ -291,7 +297,7 @@ body.dark-mode .theme-toggle{
 }
 
 body.dark-mode .info-panel {
-    background-color: rgb(28, 97, 30);
+    background-color: #1c611e;
     color: white;
 }
 
@@ -367,4 +373,150 @@ body.dark-mode .info-panel {
 
 #kofi-button:hover {
     background-color: #b12c2a;
+}
+
+.customize-sidebar {
+    height: 100vh;
+    width: 0;
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: 0.5s;
+    color: white;
+    box-sizing: border-box;
+    padding-top: 60px; /* Adjust padding to fit the button */
+}
+
+.customize-section {
+    padding: 20pX;
+}
+
+.customize-sidebar input[type="color"],
+.customize-sidebar input[type="text"] {
+    width: 100%;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.tab-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    background-color: #111;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: 0.3s;
+}
+
+.tab-button.hidden {
+    display: none;
+}
+
+.tab-button:hover {
+    background-color: #444;
+}
+
+body.customize-sidebar-open .customize-sidebar {
+    width: 300px;
+}
+
+body.customize-sidebar-open #main-content {
+    margin-left: 300px;
+    transition: margin-left 0.5s;
+}
+
+.customize-reset-button {
+    width: 80%; /* Adjust the width as needed */
+    margin: 20px auto; /* Center the button horizontally */
+    display: block; /* Ensure the button takes the full width specified */
+    padding: 10px;
+    background-color: rgb(126, 22, 22);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.customize-reset-button:hover {
+    background-color: rgb(70, 10, 10);
+}
+
+body.customize-sidebar-open #main-content {
+    margin-left: 300px;
+    transition: margin-left 0.5s;
+}
+
+.customize-sidebar h2 {
+    text-align: center; /* Center the H2 element */
+}
+
+.close-customize-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.close-customize-button:hover {
+    color: #ccc;
+}
+
+.customize-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+body.customize-sidebar-open .customize-container {
+    width: 300px; /* Width of the sidebar + button */
+}
+
+.tab-button {
+    font-size: 20px;
+    background-color: #111;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+}
+
+.tab-button:hover {
+    background-color: #444;
+}
+
+a {
+    color: #1e90ff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline; /* Optional: Add underline on hover */
+    color: #e66b3f; /* Optional: Change color on hover */
+}
+
+emoji-picker {
+    margin-top: 10px;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+emoji-picker.expanded {
+    max-height: 300px;
 }

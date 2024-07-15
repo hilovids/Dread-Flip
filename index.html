@@ -7,7 +7,69 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧟</text></svg>">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="dark-mode">
+    <div id="customize-container" class="customize-container">
+        <button id="customize-button" class="tab-button"><span class="button-icon">🎨</span> Customize</button>
+        <div id="customize-sidebar" class="customize-sidebar">
+            <button id="close-customize-button" class="close-customize-button">&times;</button>
+            <h2><span class="button-icon">🎨</span>Theme<span class="button-icon">🎨</span></h2>
+            <div class="customize-section">
+                <label for="skull-emoji-picker">Death Emoji:</label>
+                <input type="text" id="skull-emoji-picker" readonly>
+                <emoji-picker id="skull-emoji-picker-element" class="dark"></emoji-picker>
+            </div>
+            <div class="customize-section">
+                <label for="apple-emoji-picker">Safe Emoji:</label>
+                <input type="text" id="apple-emoji-picker" readonly>
+                <emoji-picker id="apple-emoji-picker-element" class="dark"></emoji-picker>
+            </div>
+            <div class="customize-section">
+                <label for="background-color-picker">Background Color:</label>
+                <input type="color" id="background-color-picker">
+            </div>
+            <div class="customize-section">
+                <label for="zombie-emoji-picker">Header Emoji:</label>
+                <input type="text" id="zombie-emoji-picker" readonly>
+                <emoji-picker id="zombie-emoji-picker-element" class="dark"></emoji-picker>
+            </div>
+            <div class="customize-section">
+                <label for="header-text-color-picker">Main Header Text Color:</label>
+                <input type="color" id="header-text-color-picker">
+            </div>  
+            <div class="customize-section">
+                <label for="info-panel-color-picker">Info Panel Color:</label>
+                <input type="color" id="info-panel-color-picker">
+            </div>
+            <div class="customize-section">
+                <label for="info-panel-text-color-picker">Info Panel Text Color:</label>
+                <input type="color" id="info-panel-text-color-picker">
+            </div>
+            <div class="customize-section">
+                <label for="grid-unflipped-color-picker">Grid Unflipped Color:</label>
+                <input type="color" id="grid-unflipped-color-picker">
+            </div>
+            <div class="customize-section">
+                <label for="grid-flipped-color-picker">Grid Flipped Color:</label>
+                <input type="color" id="grid-flipped-color-picker">
+            </div>
+            <div class="customize-section">
+                <label for="grid-text-color-picker">Grid Text Color:</label>
+                <input type="color" id="grid-text-color-picker">
+            </div>
+            <div class="customize-section">
+                <label for="grid-header-color-picker">Grid Header Color:</label>
+                <input type="color" id="grid-header-color-picker">
+            </div>
+            <div class="customize-section">
+                <label for="grid-header-text-color-picker">Grid Header Text Color:</label>
+                <input type="color" id="grid-header-text-color-picker">
+            </div>
+            <div class="customize-section">
+                <button id="reset-customizations-button" class="customize-reset-button">Reset Theme</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <h1>🧟 Dread Flip - An Online Tool for Dread 🧟</h1>
         <div class="controls">
@@ -19,13 +81,6 @@
             <div class="timer-container">
                 <span class="timer-icon">⏳</span>
                 <span id="timer-display">60</span>
-            </div>
-            <div class="theme-toggle">
-                                <span id="theme-label">🌜</span>
-                <label class="switch">
-                    <input type="checkbox" id="theme-toggle-checkbox" checked>
-                    <span class="slider round"></span>
-                </label>
             </div>
             <button id="settings-button"><span class="button-icon">⚙️</span> Settings</button>
             <button id="kofi-button"><span class="button-icon">☕</span>Ko-fi</button>
@@ -40,7 +95,6 @@
             </div>
             <div id="info-panel" class="info-panel">
                 <h2>📋 How To Use 📋</h2>
-                <hr>
                 <p>Dread is a TTRPG meant to be played with a Jenga tower to represent building tension across the course of the game. So, here's my attempt at making a digital tool for playing Dread online, modeled after Pokemon HG/SS's Voltorb Flip Minigame.</p>
                 <ul>
                     <li>Once the storyteller starts the timer, players have 60 seconds to choose the tile they'd like to flip.</li>
@@ -48,6 +102,8 @@
                     <li>Flipping an apple means the player is safe, while flipping a skull means the player is not.</li>
                     <li>Once a skull has been revealed, gameplay continues on the same board.</li>
                 </ul>
+                <h2>Credits</h2>
+                <p>Emoji Picker by Nolan Lawson is used under the <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a></p>
             </div>
         </div>
     </div>
@@ -83,7 +139,7 @@
     <div id="death-modal" class="modal">
         <div class="modal-content">
             <span id="close-modal" class="close">&times;</span>
-            <h2>💀 You Have Died 💀</h2>
+            <h2 id="death-modal-text">💀 You Have Died 💀</h2>
         </div>
     </div>
     <div id="reset-modal" class="modal">
@@ -95,5 +151,6 @@
         </div>
     </div>
     <script src="script.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
 </body>
 </html>
