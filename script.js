@@ -366,16 +366,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function flipCell(cell) {
-        if (!cell.classList.contains("flipped")) {
-            cell.classList.add("flipped");
-            cell.textContent = cell.dataset.value;
-    
-            if (cell.dataset.value === skullEmoji) {
-                showModal();
-            }
 
-            saveGameState();
+        if (!cell.classList.contains('flipped')) {
+            cell.classList.add('shake');
+            setTimeout(() => {
+                cell.classList.remove('shake');
+                cell.classList.add('flipped');
+                cell.textContent = cell.dataset.value;
+                setTimeout(() => {
+                    if (cell.dataset.value === skullEmoji) {
+                        showModal();
+                    }
+                    saveGameState();
+                }, 600);
+            }, 300);
         }
+
+        // if (!cell.classList.contains("flipped")) {
+        //     cell.classList.add("flipped");
+        //     cell.textContent = cell.dataset.value;
+    
+        //     if (cell.dataset.value === skullEmoji) {
+        //         showModal();
+        //     }
+
+        //     saveGameState();
+        // }
     }
 
     function startTimer() {
@@ -746,6 +762,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         body.classList.remove("customize-sidebar-open");
         customizeButton.classList.remove("hidden");
+
         saveGameState();
     });
 

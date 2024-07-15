@@ -46,11 +46,35 @@ h1 {
     background-color: var(--grid-unflipped-color);
     color: var(--grid-text-color);
     font-size: 24px;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.cell.shake {
+    animation: shake-animation 0.3s;
 }
 
 .cell.flipped {
     background-color: var(--grid-flipped-color);
     cursor: default;
+    animation: flip-animation 0.6s forwards;
+}
+
+@keyframes shake-animation {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes flip-animation {
+    from {
+        transform: rotateY(-180deg);
+    }
+    to {
+        transform: rotateY(0deg);
+    }
 }
 
 .sums {
