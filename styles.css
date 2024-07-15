@@ -44,6 +44,7 @@ h1 {
     align-items: center;
     cursor: pointer;
     background-color: var(--grid-unflipped-color);
+    color: var(--grid-text-color);
     font-size: 24px;
 }
 
