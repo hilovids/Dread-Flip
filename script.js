@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadGameState() {
         loadSettingsFromCookies();
         const gameState = JSON.parse(localStorage.getItem("gameState"));
-        console.log(gameState);
+        //console.log(gameState);
         if (!gameState) return false;
     
         grid.innerHTML = '';
@@ -499,7 +499,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
             if (cellValues[randomIndex] !== skullEmoji) {
                 cellValues[randomIndex] = skullEmoji;
-                console.log(skullEmoji);
+                //console.log(skullEmoji);
                 placedSkulls++;
             }
             if(placedSkulls >= gridSize * gridSize) break;
